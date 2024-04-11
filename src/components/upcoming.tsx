@@ -6,29 +6,30 @@ export default async function Upcoming() {
   const session = await getServerAuthSession()
   // date for april 11th 2024 at 3:30 PM MST
   const date = new Date("2024-04-11T15:30:00-06:00")
-const upcomingMeetings = [
- {
- id: 2,
-  name: "Final Meeting ",
-  date: date,
-  location: "W431",
-  isEvent: false,
-  isRequired: true,
-  isPublic: true,
-  author: {
-  id: "1",
-  emailVerified: new Date(),
-  permissions: [],
-  attendances: 0,
-  image: null,
-  isAdmin: true,
-  name: "John Doe",
-  email: ""
-  }
-  }
-]
+  const upcomingMeetings = [
+    {
+      id: 2,
+      name: "Final Meeting ",
+      date: date,
+      location: "W431 Cherry Creek High School",
+      isEvent: false,
+      link: null,
+      isRequired: true,
+      isPublic: true,
+      author: {
+        id: "1",
+        emailVerified: new Date(),
+        permissions: [],
+        attendances: 0,
+        image: null,
+        isAdmin: true,
+        name: "John Doe",
+        email: ""
+      }
+    }
+  ]
   return (
-<div className="container mb-32">
+    <div className="container mb-32">
       <div className="mb-12">
         <a id="apply">
           <h2 className=" text-3xl md:text-4xl mb-4 font-bold min-w-full w-full">Upcoming Meetings</h2>
@@ -50,8 +51,8 @@ const upcomingMeetings = [
             {
 
               upcomingMeetings.map((meeting) => (
-            <MeetingItemPage key={meeting.id} data={meeting} isAdmin={session?.user.isAdmin ?? false} />
-                ))
+                <MeetingItemPage key={meeting.id} data={meeting} isAdmin={session?.user.isAdmin ?? false} />
+              ))
             }
           </div>
         </div>

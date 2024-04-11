@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 import { format } from 'date-fns';
 import { type RouterOutput } from "@/server/api/root";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 type Meetings = RouterOutput["meetings"]["getCalendar"][0]
 type MeetingItemProps = {
@@ -15,9 +17,9 @@ type MeetingItemProps = {
 
 
 export const MeetingItem = ({ data }: MeetingItemProps) => {
-  const { name,  isEvent } = data
+  const { name, isEvent } = data
   const date = new Date(data.date);
-  const [isEditing ] = useState<boolean>((false));
+  const [isEditing] = useState<boolean>((false));
 
   const getTimeFormat = (date: Date): string => {
     // am or pm
@@ -73,10 +75,10 @@ export const MeetingItem = ({ data }: MeetingItemProps) => {
             <MapPin />
             {
               isEvent ?
-              <Badge className="bg-red-800"> 
-                Event
-              </Badge> : <Badge className="bg-blue-800">
-              </Badge>
+                <Badge className="bg-red-800">
+                  Event
+                </Badge> : <Badge className="bg-blue-800">
+                </Badge>
             }
 
           </div>
@@ -90,7 +92,7 @@ export const MeetingItem = ({ data }: MeetingItemProps) => {
 export const MeetingItemPage = ({ data }: MeetingItemProps) => {
   const { name, location, isEvent, isRequired } = data
   const date = new Date(data.date);
-  const [isEditing ] = useState<boolean>((false));
+  const [isEditing] = useState<boolean>((false));
 
   const getTimeFormat = (date: Date): string => {
     // am or pm
@@ -103,26 +105,17 @@ export const MeetingItemPage = ({ data }: MeetingItemProps) => {
   return (
     <Sheet>
       <SheetTrigger>
-        <Card className="flex flex-col md:flex-row text-center justify-between gap-2">
-
-          <CardHeader> 
+        <Card className="w-full max-w-sm mx-auto items-start">
+          <CardHeader>
             <CardTitle>
-          <div>{getTimeFormat(date)} - {getDateFormat(date)}</div>
+              {name}
             </CardTitle>
+            <CardDescription>
+              {getDateFormat(date)} - {getTimeFormat(date)}
+            </CardDescription>
+
           </CardHeader>
 
-          <CardContent className="text-center md:py-5 font-bold">
-          <div>{name}</div>
-          </CardContent>
-          <CardFooter className="py-3 gap-2 justify-center">
-            {
-              isEvent ? <Badge className="bg-red-800 h-full"> Event </Badge> : <Badge className="bg-blue-800 h-full"> Meeting </Badge> 
-            }
-            {
-              isRequired ? <Badge className="bg-green-800 h-full"> Required </Badge> : <Badge className="bg-gray-800 h-full"> Optional </Badge>
-              
-            }
-          </CardFooter>
         </Card>
       </SheetTrigger>
       <SheetContent >
@@ -150,6 +143,7 @@ export const MeetingItemPage = ({ data }: MeetingItemProps) => {
             {getTimeFormat(date)}
           </div>
 
+
           <div className='flex flex-row gap-4'>
             <Flag />
             {
@@ -158,6 +152,7 @@ export const MeetingItemPage = ({ data }: MeetingItemProps) => {
                 : 'Meeting'
             }
           </div>
+
           <div className='flex flex-row gap-4'>
             <MapPin />
             {

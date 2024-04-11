@@ -113,6 +113,7 @@ export const meetings = pgTable(
     location: varchar("location", { length: 256 }),
     isPublic: boolean("isPublic").notNull().default(false),
     isRequired: boolean("isRequired").notNull().default(false),
+    link: text("link"),
     date: date("date", {
       mode: "date",
     }).notNull(),

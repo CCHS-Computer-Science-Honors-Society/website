@@ -25,6 +25,7 @@ export const meetingsRouter = createTRPCRouter({
           isEvent: true,
           location: true,
           isPublic: true,
+          link: true,
           date: true,
           isRequired: true,
         },
@@ -39,6 +40,7 @@ export const meetingsRouter = createTRPCRouter({
       return await ctx.db.query.meetings.findMany({
         columns: {
           id: true,
+          link: true,
           name: true,
           isEvent: true,
           location: true,
@@ -50,8 +52,8 @@ export const meetingsRouter = createTRPCRouter({
           author: true,
         },
 
-      orderBy: (meetings, { asc })=>  asc(meetings.date),
-      limit: 4
+        orderBy: (meetings, { asc }) => asc(meetings.date),
+        limit: 4
 
       })
     }),
