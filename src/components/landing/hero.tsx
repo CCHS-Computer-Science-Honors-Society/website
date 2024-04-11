@@ -12,7 +12,7 @@ export function Hero() {
             variant="outline"
             className="rounded-full border-border flex space-x-2 items-center"
           >
-            <span>Explore Initatives</span>
+            <span>Explore Our Initiatives</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width={12}

@@ -45,7 +45,7 @@ Our Internships connect you with leading tech companies for real-world experienc
 
           <CanvasRevealEffect
             animationSpeed={3}
-            containerClassName="bg-black"
+            containerClassName="bg-purple-600"
             colors={[
               [236, 72, 153],
               [232, 121, 249],

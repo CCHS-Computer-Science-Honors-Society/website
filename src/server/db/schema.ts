@@ -112,7 +112,10 @@ export const meetings = pgTable(
     isEvent: boolean("isEvent").notNull().default(false),
     location: varchar("location", { length: 256 }),
     isPublic: boolean("isPublic").notNull().default(false),
-    date: date("date").notNull(),
+    isRequired: boolean("isRequired").notNull().default(false),
+    date: date("date", {
+      mode: "date",
+    }).notNull(),
     createdById: varchar("createdById", { length: 255 })
       .notNull(),
     createdAt: timestamp("created_at")

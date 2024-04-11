@@ -26,10 +26,33 @@ export const meetingsRouter = createTRPCRouter({
           location: true,
           isPublic: true,
           date: true,
+          isRequired: true,
         },
         with: {
           author: true,
         }
+      })
+    }),
+
+  getUpcomingMeeting: publicProcedure
+    .query(async ({ ctx }) => {
+      return await ctx.db.query.meetings.findMany({
+        columns: {
+          id: true,
+          name: true,
+          isEvent: true,
+          location: true,
+          isRequired: true,
+          isPublic: true,
+          date: true,
+        },
+        with: {
+          author: true,
+        },
+
+      orderBy: (meetings, { asc })=>  asc(meetings.date),
+      limit: 4
+
       })
     }),
   create: adminProcedure
