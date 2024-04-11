@@ -32,7 +32,7 @@ export const MeetingItem = ({ data }: MeetingItemProps) => {
   return (
     <Sheet>
       <SheetTrigger>
-        <div className="flex flex-row justify-between gap-2">
+        <div className="flex flex-row justify-between gap-2 w-full">
           <div>{getTimeFormat(date)}</div>
           -
           <div>{name}</div>
@@ -107,7 +107,7 @@ export const MeetingItemPage = ({ data }: MeetingItemProps) => {
       <SheetTrigger>
         <Card className="w-full max-w-sm mx-auto items-start hover:bg-muted">
           <CardHeader>
-            <CardTitle>
+            <CardTitle className="overflow-y-clip">
               {name}
             </CardTitle>
             <CardDescription>

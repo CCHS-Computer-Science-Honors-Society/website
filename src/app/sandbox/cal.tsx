@@ -78,7 +78,7 @@ const Calendar: React.FC<CalendarProps> = ({ data, isAdmin
       return (
         <Card
           key={i}
-          className={` flex flex-col rounded-md text-center ${i < firstDayOfMonth || i >= daysInMonth + firstDayOfMonth
+          className={` flex flex-col max-w-[300px] overflow-y-clip rounded-md text-center ${i < firstDayOfMonth || i >= daysInMonth + firstDayOfMonth
             ? 'text-gray-400'
             : 'text-gray-700 hover:bg-gray-200 transition-colors duration-200 cursor-pointer'
             }`}
@@ -88,9 +88,14 @@ const Calendar: React.FC<CalendarProps> = ({ data, isAdmin
             {i < firstDayOfMonth || i >= daysInMonth + firstDayOfMonth ? '' : date.getDate()}
           </CardHeader>
           <CardContent>
-            {meetings.map((meeting) => (
-              <MeetingItem key={meeting.id} data={meeting} isAdmin={isAdmin} />
-            ))}
+            {meetings.map((meeting) => {
+              console.log(meeting.date.toTimeString() + format(meeting.date, 'h:mm a'))
+
+
+              return (
+                <MeetingItem key={meeting.id} data={meeting} isAdmin={isAdmin} />
+              )
+            })}
 
           </CardContent>
         </Card>

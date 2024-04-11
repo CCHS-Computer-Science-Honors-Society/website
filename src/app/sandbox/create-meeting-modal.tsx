@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { format } from 'date-fns'
 import { Button } from '@/components/ui/button'
 import { api } from '@/trpc/react'
 import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -44,8 +45,8 @@ export const CreateMeetingModal = ({
   const router = useRouter()
   const { mutate: create } = api.meetings.create.useMutation({
     onSuccess: () => {
-      router.refresh()
       toast.success('Meeting created')
+      router.refresh()
     },
     onError: (error) => {
       toast.error(error.message)
@@ -65,17 +66,17 @@ export const CreateMeetingModal = ({
   })
 
   const onSubmit = (data: z.infer<typeof schema>) => {
-    const e = data.date.date.toISOString()
-    console.log("e" + e)
-    console.log("ed")
-    console.log(new Date(e))
+
+    toast("form" + data.date.date.toString() + format(data.date.date, "hh:mm a") + data.date.hasTime)
+    console.log("form date" + data.date.date.toISOString())
     create({
-      authorId,
-      date: e,
+      createdById: authorId,
+      date: data.date.date,
       name: data.name,
       isEvent: data.isEvent,
       location: data.location,
       isPublic: data.isPublic,
+
     })
   }
 

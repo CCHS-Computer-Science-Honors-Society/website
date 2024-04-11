@@ -3,6 +3,7 @@ import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { createInput } from "@/server/db/zod";
+import { format } from "date-fns";
 
 const updateSchema = createInputSchema.extend({
   id: z.number().min(1),
@@ -60,8 +61,8 @@ export const meetingsRouter = createTRPCRouter({
   create: adminProcedure
     .input(createInput)
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(meetings)
-        .values(input);
+      // 2024-04 - 25T21: 30:00.000Z 2024-04 - 25T06:00:00.000Z
+      await ctx.db.insert(meetings).values(input)
     }),
 
   delete: adminProcedure

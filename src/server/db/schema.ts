@@ -114,7 +114,7 @@ export const meetings = pgTable(
     isPublic: boolean("isPublic").notNull().default(false),
     isRequired: boolean("isRequired").notNull().default(false),
     link: text("link"),
-    date: date("date", {
+    date: timestamp("meeting_date", {
       mode: "date",
     }).notNull(),
     createdById: varchar("createdById", { length: 255 })
