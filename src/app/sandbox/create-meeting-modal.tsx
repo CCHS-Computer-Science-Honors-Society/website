@@ -51,10 +51,6 @@ export const CreateMeetingModal = ({
     onError: (error) => {
       toast.error(error.message)
     },
-    onMutate() {
-      toast.loading("Creating meeting")
-    },
-
   })
 
   const form = useForm<z.infer<typeof schema>>({
