@@ -26,8 +26,8 @@ function Navbar({ className }: { className?: string }) {
             <HoveredLink href="/#apply">Apply</HoveredLink>
           </div>
           </MenuItem>
-        <HoveredLink href="/calender" className="text-sm">
-          Calender
+        <HoveredLink href="/calendar" className="text-sm">
+          Calendar 
         </HoveredLink>
       </Menu>
     </div>
