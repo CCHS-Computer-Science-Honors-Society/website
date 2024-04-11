@@ -105,7 +105,7 @@ export const MeetingItemPage = ({ data }: MeetingItemProps) => {
   return (
     <Sheet>
       <SheetTrigger>
-        <Card className="w-full max-w-sm mx-auto items-start">
+        <Card className="w-full max-w-sm mx-auto items-start hover:bg-muted">
           <CardHeader>
             <CardTitle>
               {name}
