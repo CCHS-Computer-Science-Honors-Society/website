@@ -14,7 +14,7 @@ const inter = Inter({
 export const metadata = {
   title: "Cherry Creek Computer Science Honor Society",
   description: "The offical website of the Cherry Creek Computer Science Honor Society",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.png" }],
 };
 
 export default function RootLayout({

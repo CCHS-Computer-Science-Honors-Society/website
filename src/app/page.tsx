@@ -4,6 +4,12 @@ import { SectionOne } from "@/components/landing/section1";
 import { SectionTwo } from "@/components/landing/section2";
 import { SectionFour } from "@/components/landing/section3";
 import { What } from "@/components/landing/what";
+import { type Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | Cherry Creek Computer Science Honor Society",
+  description: "The offical website of the Cherry Creek Computer Science Honor Society",
+}
 
 export default async function Home() {
 
