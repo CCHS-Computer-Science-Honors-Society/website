@@ -15,7 +15,7 @@ type MeetingItemProps = {
 
 
 export const MeetingItem = ({ data }: MeetingItemProps) => {
-  const { name, location, isEvent } = data
+  const { name,  isEvent } = data
   const date = new Date(data.date);
   const [isEditing ] = useState<boolean>((false));
 
