@@ -53,6 +53,7 @@ export default async function UsersTable() {
               data.map((user) => (
                 <TableItem key={user.id} user={user} />
               ))
+
             }
           </TableBody>
         </Table>

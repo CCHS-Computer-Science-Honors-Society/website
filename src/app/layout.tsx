@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 import { Toaster } from "@/components/ui/sonner";
 import { NavbarDemo } from "@/components/nav";
+import { getServerAuthSession } from "@/server/auth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,18 +18,19 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.png" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerAuthSession();
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
         <TRPCReactProvider>
 
           <div className="flex flex-col min-h-screen min-w-full">
-            <NavbarDemo />
+            <NavbarDemo isAuthed={session?.user ? true : false} />
             {children}
           </div>
         </TRPCReactProvider>

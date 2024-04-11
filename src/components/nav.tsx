@@ -2,16 +2,20 @@
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { Menu, MenuItem, HoveredLink } from "./ui/navbar-menu";
+import { Button } from "./ui/button";
 
-export function NavbarDemo() {
+export function NavbarDemo(props: {
+  isAuthed: boolean;
+
+}) {
   return (
     <div className="relative w-full flex items-center justify-center">
-      <Navbar className="top-2" />
+      <Navbar className="top-2" isAuthed={props.isAuthed} />
     </div>
   );
 }
 
-function Navbar({ className }: { className?: string }) {
+function Navbar({ className, isAuthed }: { className?: string, isAuthed: boolean }) {
   const [active, setActive] = useState<string | null>(null);
   return (
     <div
@@ -25,10 +29,24 @@ function Navbar({ className }: { className?: string }) {
             <HoveredLink href="/#initiatives"> Initiatives</HoveredLink>
             <HoveredLink href="/#apply">Apply</HoveredLink>
           </div>
-          </MenuItem>
+        </MenuItem>
         <HoveredLink href="/calendar" className="text-sm">
-          Calendar 
+          Calendar
         </HoveredLink>
+
+        {!isAuthed ? (
+          <Button variant={"outline"} asChild>
+            <HoveredLink href="/api/auth/signin" className="text-sm">
+              Sign In
+            </HoveredLink>
+          </Button>
+        ) : (
+          <Button variant={"outline"} asChild>
+            <HoveredLink href="/api/auth/signout" className="text-sm">
+              Sign Out
+            </HoveredLink>
+          </Button>
+        )}
       </Menu>
     </div>
   );
