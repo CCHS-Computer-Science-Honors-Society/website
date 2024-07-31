@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 import { format } from 'date-fns';
 import { type RouterOutput } from "@/server/api/root";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type Meetings = RouterOutput["meetings"]["getCalendar"][0]
 type MeetingItemProps = {
@@ -52,35 +54,37 @@ export const MeetingItem = ({ data }: MeetingItemProps) => {
               : name
           }
         </SheetHeader>
-        <div className='flex flex-col py-4 gap-4'>
-          <div className='flex flex-row gap-4'>
-            <CalendarIcon />
-            {getDateFormat(date)}
-          </div>
+        <div className='flex flex-col justify-between'>
+          <div className='flex flex-col py-4 gap-4'>
+            <div className='flex flex-row gap-4'>
+              <CalendarIcon />
+              {getDateFormat(date)}
+            </div>
 
-          <div className='flex flex-row gap-4'>
-            <ClockIcon />
-            {getTimeFormat(date)}
-          </div>
+            <div className='flex flex-row gap-4'>
+              <ClockIcon />
+              {getTimeFormat(date)}
+            </div>
 
-          <div className='flex flex-row gap-4'>
-            <Flag />
-            {
-              isEvent ?
-                'Event'
-                : 'Meeting'
-            }
-          </div>
-          <div className='flex flex-row gap-4'>
-            <MapPin />
-            {
-              isEvent ?
-                <Badge className="bg-red-800">
-                  Event
-                </Badge> : <Badge className="bg-blue-800">
-                </Badge>
-            }
-
+            <div className='flex flex-row gap-4'>
+              <Flag />
+              {
+                isEvent ?
+                  'Event'
+                  : 'Meeting'
+              }
+            </div>
+            <div className='flex flex-row gap-4'>
+              <MapPin />
+              {
+                isEvent ?
+                  <Badge className="bg-red-800">
+                    Event
+                  </Badge> : <Badge className="bg-blue-800">
+                    Meeting
+                  </Badge>
+              }
+            </div>
           </div>
         </div>
       </SheetContent>
@@ -89,11 +93,26 @@ export const MeetingItem = ({ data }: MeetingItemProps) => {
 }
 
 
-export const MeetingItemPage = ({ data }: MeetingItemProps) => {
+export const MeetingItemPage = ({ data, isAdmin }: MeetingItemProps) => {
   const { name, location, isEvent, isRequired } = data
   const date = new Date(data.date);
   const [isEditing] = useState<boolean>((false));
+  const router = useRouter()
 
+  const { mutate: deleteMeeting } = api.meetings.delete.useMutation({
+    onSuccess: () => {
+      toast.success('Meeting Deleted')
+      router.refresh()
+    },
+    onError: () => {
+      toast.error("Error deleting meeting")
+    }
+  })
+
+
+  function handleDelete() {
+    deleteMeeting(data.id)
+  }
   const getTimeFormat = (date: Date): string => {
     // am or pm
     return format(date, 'h:mm a');
@@ -105,7 +124,7 @@ export const MeetingItemPage = ({ data }: MeetingItemProps) => {
   return (
     <Sheet>
       <SheetTrigger>
-        <Card className="w-full max-w-sm mx-auto items-start hover:bg-muted">
+        <Card className={`w-full max-w-sm mx-auto items-start hover:bg-muted ${isRequired ? `border-red-600` : null}`}>
           <CardHeader>
             <CardTitle className="overflow-y-clip">
               {name}
@@ -158,8 +177,14 @@ export const MeetingItemPage = ({ data }: MeetingItemProps) => {
             {
               location
             }
-
           </div>
+          {
+            isAdmin && (
+              <Button className='w-full' onClick={handleDelete} variant={"destructive"}>
+                Delete
+              </Button>
+            )
+          }
         </div>
       </SheetContent>
     </Sheet>

@@ -7,6 +7,7 @@ import { useState } from "react";
 import SuperJSON from "superjson";
 
 import { type AppRouter } from "@/server/api/root";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const createQueryClient = () => new QueryClient();
 
@@ -49,7 +50,9 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <api.Provider client={trpcClient} queryClient={queryClient}>
-        {props.children}
+        <TooltipProvider>
+          {props.children}
+        </TooltipProvider>
       </api.Provider>
     </QueryClientProvider>
   );

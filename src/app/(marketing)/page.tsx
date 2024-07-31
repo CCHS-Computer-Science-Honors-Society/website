@@ -1,4 +1,3 @@
-
 import { Apply } from "@/components/landing/apply-section";
 import { Hero } from "@/components/landing/hero";
 import { SectionOne } from "@/components/landing/section1";

@@ -1,10 +1,11 @@
 import React from 'react'
 import { getServerAuthSession } from '@/server/auth'
-import { MeetingItemPage } from '@/app/sandbox/meeting-item'
+import { MeetingItemPage } from '@/app/(marketing)/sandbox/meeting-item'
 import { api } from '@/trpc/server'
-import { CreateMeetingModal } from '@/app/sandbox/create-meeting-modal'
+import { CreateMeetingModal } from '@/app/(marketing)/sandbox/create-meeting-modal'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
-import Calendar from '@/app/sandbox/cal'
+import Calendar from '@/app/(marketing)/sandbox/cal'
+import { Demo } from './demo'
 
 export default async function Upcoming() {
   const session = await getServerAuthSession()
@@ -56,10 +57,8 @@ export default async function Upcoming() {
                   upcomingMeetings.length === 0 && (
                     <p>No upcoming meetings</p>
                   )
-
                 }
                 {
-
                   upcomingMeetings.map((meeting) => (
                     <MeetingItemPage key={meeting.id} data={meeting} isAdmin={session?.user.isAdmin ?? false} />
                   ))
@@ -68,7 +67,7 @@ export default async function Upcoming() {
             </div>
           </TabsContent>
           <TabsContent value="calendar">
-            <Calendar data={data} isAdmin={session?.user.isAdmin ?? false} />
+            <Calendar meetings={data} />
           </TabsContent>
         </div>
       </Tabs>

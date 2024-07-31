@@ -6,16 +6,16 @@ import { Button } from "./ui/button";
 
 export function NavbarDemo(props: {
   isAuthed: boolean;
-
+  isAdmin: boolean;
 }) {
   return (
     <div className="relative w-full flex items-center justify-center">
-      <Navbar className="top-2" isAuthed={props.isAuthed} />
+      <Navbar className="top-2" isAuthed={props.isAuthed} isAdmin={props.isAdmin} />
     </div>
   );
 }
 
-function Navbar({ className, isAuthed }: { className?: string, isAuthed: boolean }) {
+function Navbar({ className, isAuthed, isAdmin }: { className?: string, isAuthed: boolean, isAdmin: boolean }) {
   const [active, setActive] = useState<string | null>(null);
   return (
     <div
@@ -34,6 +34,13 @@ function Navbar({ className, isAuthed }: { className?: string, isAuthed: boolean
           Calendar
         </HoveredLink>
 
+        {
+          isAdmin && (
+            <HoveredLink href="/admin" className="text-sm">
+              Dashboard
+            </HoveredLink>
+          )
+        }
         {!isAuthed ? (
           <Button variant={"outline"} asChild>
             <HoveredLink href="/api/auth/signin" className="text-sm">

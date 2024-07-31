@@ -79,17 +79,16 @@ export const CreateMeetingModal = ({
   return (
     <div>
       <Dialog>
-        <DialogTrigger>
+        <DialogTrigger asChild>
           <Button>
             Create Meeting
           </Button>
         </DialogTrigger>
         <DialogContent className='flex flex-col'>
           <DialogTitle>
-            Create Partner
+            Create a Meeting
           </DialogTitle>
           <div>
-
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <FormField
