@@ -1,3 +1,4 @@
+
 import { Apply } from "@/components/landing/apply-section";
 import { Hero } from "@/components/landing/hero";
 import { SectionOne } from "@/components/landing/section1";
@@ -17,11 +18,9 @@ export default async function Home() {
     <main className="flex min-h-screen min-w-full flex-col">
       <Hero />
       <What />
-      <a id="initatives" >
-        <SectionOne />
-        <SectionTwo />
-        <SectionFour />
-      </a>
+      <SectionOne />
+      <SectionTwo />
+      <SectionFour />
       <Apply />
     </main>
   );
