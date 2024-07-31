@@ -5,7 +5,6 @@ import { api } from '@/trpc/server'
 import { CreateMeetingModal } from '@/app/(marketing)/sandbox/create-meeting-modal'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 import Calendar from '@/app/(marketing)/sandbox/cal'
-import { Demo } from './demo'
 
 export default async function Upcoming() {
   const session = await getServerAuthSession()
@@ -67,7 +66,7 @@ export default async function Upcoming() {
             </div>
           </TabsContent>
           <TabsContent value="calendar">
-            <Calendar meetings={data} />
+            <Calendar data={data} isAdmin={session?.user.isAdmin ?? false} />
           </TabsContent>
         </div>
       </Tabs>
