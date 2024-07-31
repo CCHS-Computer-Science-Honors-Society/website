@@ -4,22 +4,31 @@ import React, { useState } from "react";
 import { Menu, MenuItem, HoveredLink } from "./ui/navbar-menu";
 import { Button } from "./ui/button";
 
-export function NavbarDemo(props: {
-  isAuthed: boolean;
-  isAdmin: boolean;
-}) {
+export function NavbarDemo(props: { isAuthed: boolean; isAdmin: boolean }) {
   return (
-    <div className="relative w-full flex items-center justify-center">
-      <Navbar className="top-2" isAuthed={props.isAuthed} isAdmin={props.isAdmin} />
+    <div className="relative flex w-full items-center justify-center">
+      <Navbar
+        className="top-2"
+        isAuthed={props.isAuthed}
+        isAdmin={props.isAdmin}
+      />
     </div>
   );
 }
 
-function Navbar({ className, isAuthed, isAdmin }: { className?: string, isAuthed: boolean, isAdmin: boolean }) {
+function Navbar({
+  className,
+  isAuthed,
+  isAdmin,
+}: {
+  className?: string;
+  isAuthed: boolean;
+  isAdmin: boolean;
+}) {
   const [active, setActive] = useState<string | null>(null);
   return (
     <div
-      className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}
+      className={cn("fixed inset-x-0 top-10 z-50 mx-auto max-w-2xl", className)}
     >
       <Menu setActive={setActive}>
         <MenuItem setActive={setActive} active={active} item="Home">
@@ -34,13 +43,11 @@ function Navbar({ className, isAuthed, isAdmin }: { className?: string, isAuthed
           Calendar
         </HoveredLink>
 
-        {
-          isAdmin && (
-            <HoveredLink href="/admin" className="text-sm">
-              Dashboard
-            </HoveredLink>
-          )
-        }
+        {isAdmin && (
+          <HoveredLink href="/admin" className="text-sm">
+            Dashboard
+          </HoveredLink>
+        )}
         {!isAuthed ? (
           <Button variant={"outline"} asChild>
             <HoveredLink href="/api/auth/signin" className="text-sm">

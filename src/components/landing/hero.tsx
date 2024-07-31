@@ -6,11 +6,11 @@ import SkButton from "../sketch-button";
 export function Hero() {
   return (
     <HeroHighlight>
-      <section className="text-center mt-16 md:mt-18 items-center flex flex-col">
+      <section className="md:mt-18 mt-16 flex flex-col items-center text-center">
         <Link href="/#initatives">
           <Button
             variant="outline"
-            className="rounded-full border-border flex space-x-2 items-center"
+            className="flex items-center space-x-2 rounded-full border-border"
           >
             <span>Explore Our Initiatives</span>
             <svg
@@ -27,22 +27,21 @@ export function Hero() {
           </Button>
         </Link>
 
-        <h1 className="text-6xl font-medium mt-6">Computer Science Honor Society</h1>
+        <h1 className="mt-6 text-6xl font-medium">
+          Computer Science Honor Society
+        </h1>
 
-        <p className="mt-4 md:mt-6 text-[#707070] max-w-[700px]">
+        <p className="mt-4 max-w-[700px] text-[#707070] md:mt-6">
           <Highlight className="text-black dark:text-white">
-            contribute to impactful projects, develop technical skills,
-            and build a community of like-minded individuals.
+            contribute to impactful projects, develop technical skills, and
+            build a community of like-minded individuals.
           </Highlight>
         </p>
 
         <div className="mt-8">
           <div className="flex items-center space-x-4">
             <Link href="/construction">
-              <SkButton
-              >
-                Tutoring Timing
-              </SkButton>
+              <SkButton>Tutoring Timing</SkButton>
             </Link>
 
             <a href="/#apply">
@@ -50,7 +49,6 @@ export function Hero() {
             </a>
           </div>
         </div>
-
       </section>
     </HeroHighlight>
   );

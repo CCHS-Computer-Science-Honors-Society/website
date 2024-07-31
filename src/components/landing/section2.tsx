@@ -15,11 +15,11 @@ export function SectionTwo() {
 
   return (
     <section
-      className="border border-border rounded-2xl container bg-white dark:bg-[#121212] p-8 md:p-10 md:pb-0 overflow-hidden mb-12"
+      className="container mb-12 overflow-hidden rounded-2xl border border-border bg-white p-8 dark:bg-[#121212] md:p-10 md:pb-0"
       onMouseEnter={() => setActive(true)}
       onMouseLeave={() => setActive(false)}
     >
-      <div className="flex flex-col md:space-x-12 md:flex-row">
+      <div className="flex flex-col md:flex-row md:space-x-12">
         <motion.div
           animate={isActive ? { y: -5, x: 5 } : { y: 0, x: 0 }}
           initial={{ y: 0, x: 0 }}
@@ -36,23 +36,27 @@ export function SectionTwo() {
           />
         </motion.div>
 
-        <div className="mt-6 md:max-w-[40%] md:ml-8 md:mb-8">
-          <h3 className="font-medium text-xl md:text-2xl mb-4">
+        <div className="mt-6 md:mb-8 md:ml-8 md:max-w-[40%]">
+          <h3 className="mb-4 text-xl font-medium md:text-2xl">
             Open CourseWare
           </h3>
 
-          <p className="text-[#878787] mb-4">
-            Open CourseWare is a free and open digital publication of cherry creek high school&apos;s
-            quality educational materials, organized as courses.
-
+          <p className="mb-4 text-[#878787]">
+            Open CourseWare is a free and open digital publication of cherry
+            creek high school&apos;s quality educational materials, organized as
+            courses.
           </p>
 
-          <Link href={`https://creekocw.wordpress.com/`} target="_blank" className="flex space-x-2 items-center mt-8">
+          <Link
+            href={`https://creekocw.wordpress.com/`}
+            target="_blank"
+            className="mt-8 flex items-center space-x-2"
+          >
             <LinkIcon />
             <span className="text-[#878787]">Visit OpenCourseWare</span>
           </Link>
         </div>
       </div>
-    </section >
+    </section>
   );
 }

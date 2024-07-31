@@ -3,22 +3,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import type { Config } from "tailwindcss"
-import svgToDataUri from "mini-svg-data-uri"
+import type { Config } from "tailwindcss";
+import svgToDataUri from "mini-svg-data-uri";
 
-const flattenColorPalette = (colors: any): any => Object.assign({}, ...Object.entries(colors !== null && colors !== void 0 ? colors : {}).flatMap(([color, values]) => typeof values == "object" ? Object.entries(flattenColorPalette(values)).map(([number, hex]) => ({
-  [color + (number === "DEFAULT" ? "" : `-${number}`)]: hex
-})) : [
-  {
-    [`${color}`]: values
-  }
-]));
+const flattenColorPalette = (colors: any): any =>
+  Object.assign(
+    {},
+    ...Object.entries(
+      colors !== null && colors !== void 0 ? colors : {},
+    ).flatMap(([color, values]) =>
+      typeof values == "object"
+        ? Object.entries(flattenColorPalette(values)).map(([number, hex]) => ({
+            [color + (number === "DEFAULT" ? "" : `-${number}`)]: hex,
+          }))
+        : [
+            {
+              [`${color}`]: values,
+            },
+          ],
+    ),
+  );
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
 function addVariablesForColors({ addBase, theme }: any) {
   const allColors = flattenColorPalette(theme("colors"));
   const newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
   );
 
   addBase({
@@ -29,10 +39,10 @@ function addVariablesForColors({ addBase, theme }: any) {
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -104,19 +114,22 @@ const config = {
     require("tailwindcss-animate"),
     addVariablesForColors,
 
-    function({ matchUtilities, theme }: any) {
+    function ({ matchUtilities, theme }: any) {
       matchUtilities(
         {
           "bg-dot-thick": (value: any) => ({
             backgroundImage: `url("${svgToDataUri(
-              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="2.5"></circle></svg>`
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="2.5"></circle></svg>`,
             )}")`,
           }),
         },
-        { values: flattenColorPalette(theme("backgroundColor")), type: "color" }
+        {
+          values: flattenColorPalette(theme("backgroundColor")),
+          type: "color",
+        },
       );
     },
   ],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

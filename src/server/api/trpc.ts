@@ -112,6 +112,4 @@ export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
     throw new TRPCError({ code: "FORBIDDEN" });
   }
   return next();
-})
-
-
+});

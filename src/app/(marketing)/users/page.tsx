@@ -4,25 +4,25 @@ import {
   CardDescription,
   CardTitle,
   CardHeader,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { api } from "@/trpc/server"
-import { TableItem } from "./table-item"
+} from "@/components/ui/table";
+import { api } from "@/trpc/server";
+import { TableItem } from "./table-item";
 import { getServerAuthSession } from "@/server/auth";
 import { redirect } from "next/navigation";
 
 export default async function UsersTable() {
   const session = await getServerAuthSession();
-  const data = await api.user.getTableData()
+  const data = await api.user.getTableData();
 
   if (!session?.user.isAdmin) {
-    return redirect('/')
+    return redirect("/");
   }
 
   return (
@@ -38,26 +38,19 @@ export default async function UsersTable() {
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Id</TableHead>
-              <TableHeader>
-                Email
-              </TableHeader>
+              <TableHeader>Email</TableHeader>
               <TableHead>Attendance Count</TableHead>
               <TableHead>Username</TableHead>
-              <TableHead className="w-[100px]">
-                Is Admin
-              </TableHead>
+              <TableHead className="w-[100px]">Is Admin</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {
-              data.map((user) => (
-                <TableItem key={user.id} user={user} />
-              ))
-
-            }
+            {data.map((user) => (
+              <TableItem key={user.id} user={user} />
+            ))}
           </TableBody>
         </Table>
       </CardContent>
     </Card>
-  )
+  );
 }

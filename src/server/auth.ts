@@ -11,13 +11,12 @@ import { env } from "@/env";
 import { db } from "@/server/db";
 import { cache } from "react";
 
-
 async function isUserAdmin(id: string) {
   const user = await db.query.users.findFirst({
     columns: { isAdmin: true },
     where: (users, { eq }) => eq(users.id, id),
-  })
-  return user?.isAdmin ?? false
+  });
+  return user?.isAdmin ?? false;
 }
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`

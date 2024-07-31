@@ -12,7 +12,8 @@ const inter = Inter({
 
 export const metadata = {
   title: "Cherry Creek Computer Science Honor Society",
-  description: "The offical website of the Cherry Creek Computer Science Honor Society",
+  description:
+    "The offical website of the Cherry Creek Computer Science Honor Society",
   icons: [{ rel: "icon", url: "/favicon.png" }],
 };
 
@@ -25,13 +26,11 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
         <TRPCReactProvider>
-
-          <div className="flex flex-col min-h-screen min-w-full">
+          <div className="flex min-h-screen min-w-full flex-col">
             {children}
           </div>
         </TRPCReactProvider>
         <Toaster />
-
       </body>
     </html>
   );

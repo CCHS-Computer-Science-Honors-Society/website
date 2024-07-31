@@ -30,7 +30,7 @@ export const CanvasRevealEffect = ({
   showGradient?: boolean;
 }) => {
   return (
-    <div className={cn("h-full relative bg-white w-full", containerClassName)}>
+    <div className={cn("relative h-full w-full bg-white", containerClassName)}>
       <div className="h-full w-full">
         <DotMatrix
           colors={colors ?? [[0, 255, 255]]}
@@ -146,14 +146,16 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
         }
         void main() {
             vec2 st = fragCoord.xy;
-            ${center.includes("x")
-          ? "st.x -= abs(floor((mod(u_resolution.x, u_total_size) - u_dot_size) * 0.5));"
-          : ""
-        }
-            ${center.includes("y")
-          ? "st.y -= abs(floor((mod(u_resolution.y, u_total_size) - u_dot_size) * 0.5));"
-          : ""
-        }
+            ${
+              center.includes("x")
+                ? "st.x -= abs(floor((mod(u_resolution.x, u_total_size) - u_dot_size) * 0.5));"
+                : ""
+            }
+            ${
+              center.includes("y")
+                ? "st.y -= abs(floor((mod(u_resolution.y, u_total_size) - u_dot_size) * 0.5));"
+                : ""
+            }
       float opacity = step(0.0, st.x);
       opacity *= step(0.0, st.y);
 
@@ -179,10 +181,13 @@ const DotMatrix: React.FC<DotMatrixProps> = ({
   );
 };
 
-type Uniforms = Record<string, {
-  value: number[] | number[][] | number;
-  type: string;
-}>;
+type Uniforms = Record<
+  string,
+  {
+    value: number[] | number[][] | number;
+    type: string;
+  }
+>;
 const ShaderMaterial = ({
   source,
   uniforms,
@@ -232,7 +237,7 @@ const ShaderMaterial = ({
         case "uniform3fv":
           preparedUniforms[uniformName] = {
             value: uniform.value.map((v: number[]) =>
-              new THREE.Vector3().fromArray(v)
+              new THREE.Vector3().fromArray(v),
             ),
             type: "3fv",
           };
@@ -300,9 +305,12 @@ const Shader: React.FC<ShaderProps> = ({ source, uniforms, maxFps = 60 }) => {
 };
 interface ShaderProps {
   source: string;
-  uniforms: Record<string, {
-    value: number[] | number[][] | number;
-    type: string;
-  }>;
+  uniforms: Record<
+    string,
+    {
+      value: number[] | number[][] | number;
+      type: string;
+    }
+  >;
   maxFps?: number;
 }

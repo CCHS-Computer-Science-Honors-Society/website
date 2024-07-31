@@ -1,16 +1,33 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-"use client"
-import { CalendarDateTime, isToday as _isToday, } from "@internationalized/date";
+"use client";
+import { CalendarDateTime, isToday as _isToday } from "@internationalized/date";
 import { format } from "date-fns";
 import { CalendarIcon, ClockIcon } from "lucide-react";
 import { useRef, useState } from "react";
-import { type DateValue, type TimeValue, useDateSegment, useInteractOutside, useLocale, useTimeField } from "react-aria";
-import { type DateFieldState, type DatePickerStateOptions, type DateSegment as IDateSegment, useDatePickerState, useTimeFieldState } from "react-stately";
+import {
+  type DateValue,
+  type TimeValue,
+  useDateSegment,
+  useInteractOutside,
+  useLocale,
+  useTimeField,
+} from "react-aria";
+import {
+  type DateFieldState,
+  type DatePickerStateOptions,
+  type DateSegment as IDateSegment,
+  useDatePickerState,
+  useTimeFieldState,
+} from "react-stately";
 import { cn } from "@/lib/utils";
 // imports from shadcn/ui
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Toggle } from "@/components/ui/toggle";
 import { Calendar } from "@/components/ui/calendar";
 
@@ -33,7 +50,7 @@ function DateSegment({ segment, state }: DateSegmentProps) {
       className={cn(
         "focus:rounded-[2px] focus:bg-accent focus:text-accent-foreground focus:outline-none",
         segment.type !== "literal" ? "px-[1px]" : "",
-        segment.isPlaceholder ? "text-muted-foreground" : ""
+        segment.isPlaceholder ? "text-muted-foreground" : "",
       )}
     >
       {segment.text}
@@ -41,12 +58,17 @@ function DateSegment({ segment, state }: DateSegmentProps) {
   );
 }
 
-function TimeField({ hasTime, onHasTimeChange, disabled, ...props }: {
-  disabled: boolean
-  hasTime: boolean
-  onHasTimeChange: (hasTime: boolean) => void
-  value: TimeValue | null
-  onChange: (value: TimeValue) => void
+function TimeField({
+  hasTime,
+  onHasTimeChange,
+  disabled,
+  ...props
+}: {
+  disabled: boolean;
+  hasTime: boolean;
+  onHasTimeChange: (hasTime: boolean) => void;
+  value: TimeValue | null;
+  onChange: (value: TimeValue) => void;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -59,7 +81,12 @@ function TimeField({ hasTime, onHasTimeChange, disabled, ...props }: {
   useTimeField(props, state, ref);
 
   return (
-    <div className={cn("flex items-center space-x-2 mt-1", disabled ? "cursor-not-allowed opacity-70" : "")}>
+    <div
+      className={cn(
+        "mt-1 flex items-center space-x-2",
+        disabled ? "cursor-not-allowed opacity-70" : "",
+      )}
+    >
       <Toggle
         disabled={disabled}
         pressed={hasTime}
@@ -68,7 +95,7 @@ function TimeField({ hasTime, onHasTimeChange, disabled, ...props }: {
         variant="outline"
         aria-label="Toggle time"
       >
-        <ClockIcon size='16px' />
+        <ClockIcon size="16px" />
       </Toggle>
       {hasTime && (
         <div
@@ -86,40 +113,53 @@ function TimeField({ hasTime, onHasTimeChange, disabled, ...props }: {
 
 const dateToCalendarDateTime = (date: Date): CalendarDateTime => {
   const year = date.getFullYear();
-  const month = date.getMonth() + 1;  // JavaScript months are 0-based
+  const month = date.getMonth() + 1; // JavaScript months are 0-based
   const day = date.getDate();
   const hour = date.getHours();
   const minute = date.getMinutes();
   const second = date.getSeconds();
   const millisecond = date.getMilliseconds();
 
-  return new CalendarDateTime(year, month, day, hour, minute, second, millisecond);
-}
+  return new CalendarDateTime(
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    second,
+    millisecond,
+  );
+};
 
 type DatePickerProps = {
-  value?: { date?: Date | null, hasTime?: boolean }
-  onChange: (value: { date: Date, hasTime: boolean }) => void
-  isDisabled?: boolean
-}
+  value?: { date?: Date | null; hasTime?: boolean };
+  onChange: (value: { date: Date; hasTime: boolean }) => void;
+  isDisabled?: boolean;
+};
 const DateTimePicker = (props: DatePickerProps) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   const [open, setOpen] = useState(false);
-  const hasTime = props.value?.hasTime ?? false
+  const hasTime = props.value?.hasTime ?? false;
 
   const onChangeWrapper = (value: DateValue, newHasTime?: boolean) => {
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    console.log(value.toDate(timeZone))
-    props.onChange({ date: value.toDate(timeZone), hasTime: newHasTime ?? hasTime })
-  }
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log(value.toDate(timeZone));
+    props.onChange({
+      date: value.toDate(timeZone),
+      hasTime: newHasTime ?? hasTime,
+    });
+  };
   const datePickerProps: DatePickerStateOptions<CalendarDateTime> = {
-    value: props.value?.date ? dateToCalendarDateTime(props.value.date) : undefined,
+    value: props.value?.date
+      ? dateToCalendarDateTime(props.value.date)
+      : undefined,
     onChange: onChangeWrapper,
     isDisabled: props.isDisabled,
-    granularity: 'minute',
-  }
+    granularity: "minute",
+  };
 
-  const state = useDatePickerState(datePickerProps)
+  const state = useDatePickerState(datePickerProps);
   useInteractOutside({
     ref: contentRef,
     onInteractOutside: (e) => {
@@ -127,35 +167,42 @@ const DateTimePicker = (props: DatePickerProps) => {
     },
   });
 
-  const dateDisplayFormat = hasTime ? 'MM/dd/yyyy hh:mm a' : 'MM/dd/yyyy'
+  const dateDisplayFormat = hasTime ? "MM/dd/yyyy hh:mm a" : "MM/dd/yyyy";
 
   return (
-    <Popover open={open} onOpenChange={setOpen} aria-label='Date Time Picker'>
+    <Popover open={open} onOpenChange={setOpen} aria-label="Date Time Picker">
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
-            "min-w-[240px] justify-start text-left h-12",
+            "h-12 min-w-[240px] justify-start text-left",
             !props.value && "text-muted-foreground",
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {props.value?.date ? format(props.value.date, dateDisplayFormat) : <span>Pick a date</span>}
+          {props.value?.date ? (
+            format(props.value.date, dateDisplayFormat)
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent ref={contentRef} className="w-auto" align="start">
         <Calendar
           mode="single"
           selected={props.value?.date ?? undefined}
-          onSelect={value => onChangeWrapper(dateToCalendarDateTime(value!))}
+          onSelect={(value) => onChangeWrapper(dateToCalendarDateTime(value!))}
           initialFocus
           footer={
             <TimeField
-              aria-label='Time Picker'
+              aria-label="Time Picker"
               disabled={!props.value?.date}
               hasTime={hasTime}
-              onHasTimeChange={newHasTime =>
-                onChangeWrapper(dateToCalendarDateTime(props.value?.date!), newHasTime)
+              onHasTimeChange={(newHasTime) =>
+                onChangeWrapper(
+                  dateToCalendarDateTime(props.value?.date!),
+                  newHasTime,
+                )
               }
               value={hasTime ? state.timeValue : null}
               onChange={state.setTimeValue}

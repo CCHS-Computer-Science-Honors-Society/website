@@ -8,11 +8,11 @@ import { type Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Home | Cherry Creek Computer Science Honor Society",
-  description: "The offical website of the Cherry Creek Computer Science Honor Society",
-}
+  description:
+    "The offical website of the Cherry Creek Computer Science Honor Society",
+};
 
 export default async function Home() {
-
   return (
     <main className="flex min-h-screen min-w-full flex-col">
       <Hero />

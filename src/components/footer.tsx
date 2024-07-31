@@ -12,20 +12,20 @@ export function Footer() {
   }
 
   return (
-    <footer className="border-t-[1px] border-border px-4 md:px-0 pt-10 md:pt-16 bg-[#F6F6F3] dark:bg-[#0C0C0C]">
+    <footer className="border-t-[1px] border-border bg-[#F6F6F3] px-4 pt-10 dark:bg-[#0C0C0C] md:px-0 md:pt-16">
       <div className="container">
-        <div className="flex justify-between items-center border-border border-b-[1px] pb-10 md:pb-16 mb-12">
-          <Link href="/" className="scale-50 -ml-[52px] md:ml-0 md:scale-100">
+        <div className="mb-12 flex items-center justify-between border-b-[1px] border-border pb-10 md:pb-16">
+          <Link href="/" className="-ml-[52px] scale-50 md:ml-0 md:scale-100">
             <span className="sr-only">Creek CSHS</span>
           </Link>
 
-          <span className="font-normal md:text-2xl text-right">
+          <span className="text-right font-normal md:text-2xl">
             Run your business smarter.
           </span>
         </div>
 
-        <div className="flex flex-col md:flex-row w-full mb-10 md:mb-20">
-          <div className="flex flex-col space-y-8 md:space-y-0 md:flex-row md:w-6/12 justify-between leading-8">
+        <div className="mb-10 flex w-full flex-col md:mb-20 md:flex-row">
+          <div className="flex flex-col justify-between space-y-8 leading-8 md:w-6/12 md:flex-row md:space-y-0">
             <div>
               <span className="font-medium">Product</span>
               <ul>
@@ -96,8 +96,8 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="md:w-6/12 flex mt-8 md:mt-0 md:justify-end">
-            <div className="flex justify-between md:items-end flex-col space-y-14">
+          <div className="mt-8 flex md:mt-0 md:w-6/12 md:justify-end">
+            <div className="flex flex-col justify-between space-y-14 md:items-end">
               <div className="flex items-center">
                 <GitHubLogoIcon />
               </div>
@@ -105,8 +105,7 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="text-xs text-[#B3B3B2] dark:text-[#3E3E3E] mb-12">
-        </p>
+        <p className="mb-12 text-xs text-[#B3B3B2] dark:text-[#3E3E3E]"></p>
       </div>
     </footer>
   );

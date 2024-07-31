@@ -1,16 +1,22 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 //@ts-nocheck
-'use client'
-import { useRouter } from 'next/navigation'
+"use client";
+import { useRouter } from "next/navigation";
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { format } from 'date-fns'
-import { Button } from '@/components/ui/button'
-import { api } from '@/trpc/react'
-import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import React from 'react'
-import { toast } from 'sonner'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { api } from "@/trpc/react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import React from "react";
+import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -19,12 +25,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 
-import { z } from 'zod'
-import { DateTimePicker } from "@/components/ui/dt-picker"
+import { z } from "zod";
+import { DateTimePicker } from "@/components/ui/dt-picker";
 
 const schema = z.object({
   date: z.object({
@@ -35,23 +41,19 @@ const schema = z.object({
   isEvent: z.boolean().optional(),
   location: z.string().optional(),
   isPublic: z.boolean().optional(),
-})
+});
 
-export const CreateMeetingModal = ({
-  authorId
-}: {
-  authorId: string
-}) => {
-  const router = useRouter()
+export const CreateMeetingModal = ({ authorId }: { authorId: string }) => {
+  const router = useRouter();
   const { mutate: create } = api.meetings.create.useMutation({
     onSuccess: () => {
-      toast.success('Meeting created')
-      router.refresh()
+      toast.success("Meeting created");
+      router.refresh();
     },
     onError: (error) => {
-      toast.error(error.message)
+      toast.error(error.message);
     },
-  })
+  });
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -59,12 +61,16 @@ export const CreateMeetingModal = ({
       isEvent: false,
       isPublic: false,
     },
-  })
+  });
 
   const onSubmit = (data: z.infer<typeof schema>) => {
-
-    toast("form" + data.date.date.toString() + format(data.date.date, "hh:mm a") + data.date.hasTime)
-    console.log("form date" + data.date.date.toISOString())
+    toast(
+      "form" +
+        data.date.date.toString() +
+        format(data.date.date, "hh:mm a") +
+        data.date.hasTime,
+    );
+    console.log("form date" + data.date.date.toISOString());
     create({
       createdById: authorId,
       date: data.date.date,
@@ -72,25 +78,23 @@ export const CreateMeetingModal = ({
       isEvent: data.isEvent,
       location: data.location,
       isPublic: data.isPublic,
-
-    })
-  }
+    });
+  };
 
   return (
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Button>
-            Create Meeting
-          </Button>
+          <Button>Create Meeting</Button>
         </DialogTrigger>
-        <DialogContent className='flex flex-col'>
-          <DialogTitle>
-            Create a Meeting
-          </DialogTitle>
+        <DialogContent className="flex flex-col">
+          <DialogTitle>Create a Meeting</DialogTitle>
           <div>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
                 <FormField
                   control={form.control}
                   name="date"
@@ -99,13 +103,11 @@ export const CreateMeetingModal = ({
                       <FormItem>
                         <FormLabel>Date</FormLabel>
                         <FormControl>
-                          <DateTimePicker
-                            {...field}
-                          />
+                          <DateTimePicker {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
-                    )
+                    );
                   }}
                 />
                 <FormField
@@ -130,7 +132,10 @@ export const CreateMeetingModal = ({
                   render={({ field }) => (
                     <FormItem className="flex items-center space-x-2">
                       <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
                       </FormControl>
                       <FormLabel>Is this an event?</FormLabel>
                     </FormItem>
@@ -156,7 +161,10 @@ export const CreateMeetingModal = ({
                   render={({ field }) => (
                     <FormItem className="flex items-center space-x-2">
                       <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
                       </FormControl>
                       <FormLabel>Is this public?</FormLabel>
                     </FormItem>
@@ -167,13 +175,10 @@ export const CreateMeetingModal = ({
             </Form>
           </div>
           <div>
-            <DialogClose>
-              Close
-            </DialogClose>
+            <DialogClose>Close</DialogClose>
           </div>
         </DialogContent>
-
       </Dialog>
-    </div >
-  )
-}
+    </div>
+  );
+};

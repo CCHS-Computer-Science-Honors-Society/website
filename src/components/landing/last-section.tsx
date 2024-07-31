@@ -14,15 +14,15 @@ export function FooterCTA() {
   }
 
   return (
-    <div className="border border-border rounded-2xl md:container text-center md:mx-auto p-4  flex items-center flex-col bg-[#121212] h-full justify-center items-center">
+    <div className="flex h-full flex-col items-center items-center justify-center rounded-2xl  border border-border bg-[#121212] p-4 text-center md:container md:mx-auto">
       <Spotlight
-        className="-top-40 left-0 md:left-60 md:-top-20"
+        className="-top-40 left-0 md:-top-20 md:left-60"
         fill="white"
       />
-      <span className="text-4xl	md:text-7xl font-medium text-white ">
+      <span className="text-4xl	font-medium text-white md:text-7xl ">
         Apply Now!
       </span>
-      <p className="text-[#878787] mt-6">
+      <p className="mt-6 text-[#878787]">
         Join a community of like-minded individuals who are passionate about
         <br />
         Computer Science and Technology.
@@ -31,16 +31,14 @@ export function FooterCTA() {
       <div className="mt-10 md:mb-8">
         <div className="flex items-center space-x-4">
           <Link href="https://forms.gle/hjWduMtGQHCfTBpX7">
-            <SkButton
-            >
-              Apply Now
-            </SkButton>
+            <SkButton>Apply Now</SkButton>
           </Link>
 
-          <Button className="h-12 px-5 bg-white text-black hover:bg-white/80" asChild>
-            <Link href="mailto:cherrycreekcshs@gmail.com">
-              Contact Us
-            </Link>
+          <Button
+            className="h-12 bg-white px-5 text-black hover:bg-white/80"
+            asChild
+          >
+            <Link href="mailto:cherrycreekcshs@gmail.com">Contact Us</Link>
           </Button>
         </div>
       </div>

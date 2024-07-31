@@ -1,9 +1,8 @@
 import { type UserPermissions } from "@/lib/permissions";
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema } from "drizzle-zod";
 import { relations, sql } from "drizzle-orm";
 import {
   boolean,
-  date,
   index,
   integer,
   pgTable,
@@ -65,7 +64,7 @@ export const accounts = pgTable(
       columns: [account.provider, account.providerAccountId],
     }),
     userIdIdx: index("account_userId_idx").on(account.userId),
-  })
+  }),
 );
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
@@ -85,7 +84,7 @@ export const sessions = pgTable(
   },
   (session) => ({
     userIdIdx: index("session_userId_idx").on(session.userId),
-  })
+  }),
 );
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
@@ -101,7 +100,7 @@ export const verificationTokens = pgTable(
   },
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
-  })
+  }),
 );
 
 export const meetings = pgTable(
@@ -117,8 +116,7 @@ export const meetings = pgTable(
     date: timestamp("meeting_date", {
       mode: "date",
     }).notNull(),
-    createdById: varchar("createdById", { length: 255 })
-      .notNull(),
+    createdById: varchar("createdById", { length: 255 }).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -128,9 +126,8 @@ export const meetings = pgTable(
     createdByIdIdx: index("userCreatedBy_idx").on(example.createdById),
     nameIndex: index("name_idx").on(example.name),
     dateIndex: index("date_idx").on(example.date),
-  })
+  }),
 );
-
 
 export const attendedMeetings = pgTable(
   "attended_meetings",
@@ -149,28 +146,30 @@ export const attendedMeetings = pgTable(
     pk: primaryKey({ columns: [example.userId, example.meetingId] }),
     userIdIdx: index("userId_idx").on(example.userId),
     meetingIdIdx: index("meetingId_idx").on(example.meetingId),
-  })
+  }),
 );
 
-export const attendedMeetingsRelations = relations(attendedMeetings, ({ one }) => ({
-  user: one(users, {
-    fields: [attendedMeetings.userId],
-    references: [users.id]
+export const attendedMeetingsRelations = relations(
+  attendedMeetings,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [attendedMeetings.userId],
+      references: [users.id],
+    }),
+    meeting: one(meetings, {
+      fields: [attendedMeetings.meetingId],
+      references: [meetings.id],
+    }),
   }),
-  meeting: one(meetings, {
-    fields: [attendedMeetings.meetingId],
-    references: [meetings.id]
-  }),
-}));
+);
 
 export const meetingsRelations = relations(meetings, ({ one, many }) => ({
   author: one(users, {
     fields: [meetings.createdById],
-    references: [users.id]
+    references: [users.id],
   }),
-  attendees: many(attendedMeetings)
+  attendees: many(attendedMeetings),
 }));
-
 
 export const updateMeetingSchema = z.object({
   id: z.number(),
@@ -181,5 +180,4 @@ export const updateMeetingSchema = z.object({
   isEvent: z.boolean().optional(),
 });
 
-
-export const createInputSchema = createInsertSchema(meetings)
+export const createInputSchema = createInsertSchema(meetings);

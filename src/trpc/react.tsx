@@ -44,15 +44,13 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
           },
         }),
       ],
-    })
+    }),
   );
 
   return (
     <QueryClientProvider client={queryClient}>
       <api.Provider client={trpcClient} queryClient={queryClient}>
-        <TooltipProvider>
-          {props.children}
-        </TooltipProvider>
+        <TooltipProvider>{props.children}</TooltipProvider>
       </api.Provider>
     </QueryClientProvider>
   );

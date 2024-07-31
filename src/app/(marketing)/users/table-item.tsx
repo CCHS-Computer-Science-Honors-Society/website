@@ -1,5 +1,5 @@
-"use client"
-import React from 'react'
+"use client";
+import React from "react";
 
 import {
   Form,
@@ -8,37 +8,34 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-import {
-  TableCell,
-  TableRow,
-} from "@/components/ui/table"
-import type { RouterOutput } from '@/server/api/root'
-import { z } from 'zod'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { api } from '@/trpc/react'
-import { toast } from 'sonner'
-import { Checkbox } from '@/components/ui/checkbox'
+import { TableCell, TableRow } from "@/components/ui/table";
+import type { RouterOutput } from "@/server/api/root";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { api } from "@/trpc/react";
+import { toast } from "sonner";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const schema = z.object({
   name: z.string(),
   isAdmin: z.boolean(),
-})
+});
 
 export const TableItem = (props: {
-  user: RouterOutput["user"]["getTableData"][0]
+  user: RouterOutput["user"]["getTableData"][0];
 }) => {
   const { mutate } = api.user.update.useMutation({
     onSuccess: () => {
-      toast.success('User updated')
+      toast.success("User updated");
     },
     onError: (error) => {
-      toast.error(error.message)
-    }
-  })
+      toast.error(error.message);
+    },
+  });
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -46,29 +43,25 @@ export const TableItem = (props: {
       name: props.user.name!,
       isAdmin: props.user.isAdmin,
     },
-  })
+  });
 
-  const { handleSubmit } = form
+  const { handleSubmit } = form;
 
   const onSubmit = (data: z.infer<typeof schema>) => {
     mutate({
       id: props.user.id,
       ...data,
-    })
-  }
+    });
+  };
 
   return (
     <div>
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <TableRow>
-            <TableCell className="font-semibold">
-              {props.user.id}
-            </TableCell>
+            <TableCell className="font-semibold">{props.user.id}</TableCell>
 
-            <TableCell className="font-semibold">
-              {props.user.email}
-            </TableCell>
+            <TableCell className="font-semibold">{props.user.email}</TableCell>
             <TableCell className="font-semibold">
               {props.user.attendances}
             </TableCell>
@@ -92,7 +85,7 @@ export const TableItem = (props: {
                 control={form.control}
                 name="isAdmin"
                 render={({ field }) => (
-                  <FormItem >
+                  <FormItem>
                     <FormControl>
                       <Checkbox
                         checked={field.value}
@@ -107,6 +100,5 @@ export const TableItem = (props: {
         </form>
       </Form>
     </div>
-  )
-}
-
+  );
+};
