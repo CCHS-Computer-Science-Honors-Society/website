@@ -19,8 +19,10 @@ export const metadata = {
 
 export default async function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -28,6 +30,7 @@ export default async function RootLayout({
         <TRPCReactProvider>
           <div className="flex min-h-screen min-w-full flex-col">
             {children}
+            {modal}
           </div>
         </TRPCReactProvider>
         <Toaster />

@@ -1,6 +1,9 @@
-import { createInputSchema } from "./schema";
+import { meetings } from "./schema";
+import { createInsertSchema } from "drizzle-zod";
 
-export const createInput = createInputSchema.omit({
+const mutateMeetingSchema = createInsertSchema(meetings);
+
+export const createMeetingSchema = mutateMeetingSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,

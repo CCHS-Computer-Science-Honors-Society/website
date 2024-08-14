@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import Upcoming from "@/components/upcoming";
+import { getServerAuthSession } from "@/server/auth";
 import { type Metadata } from "next";
 import React, { Suspense } from "react";
 
@@ -37,11 +38,16 @@ const FallbackLoader = () => {
   );
 };
 
-export default function Page() {
+export default async function Page() {
+  const session = await getServerAuthSession();
+  const user = {
+    id: session?.user?.id,
+    isAdmin: session?.user?.isAdmin ?? false,
+  };
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       <Suspense fallback={<FallbackLoader />}>
-        <Upcoming />
+        <Upcoming user={user} />
       </Suspense>
     </div>
   );

@@ -16,15 +16,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Log } from "./log";
+import Link from "next/link";
 
 type Meetings = RouterOutput["meetings"]["getCalendar"][0];
 type MeetingItemProps = {
   data: Meetings;
   isAdmin: boolean;
+  usersMap: {
+    label: string;
+    value: string;
+  }[];
 };
 
 export const MeetingItem = ({ data }: MeetingItemProps) => {
@@ -91,7 +97,11 @@ export const MeetingItem = ({ data }: MeetingItemProps) => {
   );
 };
 
-export const MeetingItemPage = ({ data, isAdmin }: MeetingItemProps) => {
+export const MeetingItemPage = ({
+  data,
+  isAdmin,
+  usersMap,
+}: MeetingItemProps) => {
   const { name, location, isEvent, isRequired } = data;
   const date = new Date(data.date);
   const [isEditing] = useState<boolean>(false);
@@ -166,13 +176,24 @@ export const MeetingItemPage = ({ data, isAdmin }: MeetingItemProps) => {
             {location}
           </div>
           {isAdmin && (
-            <Button
-              className="w-full"
-              onClick={handleDelete}
-              variant={"destructive"}
-            >
-              Delete
-            </Button>
+            <div className="gap-4">
+              <Button
+                className="w-full"
+                onClick={handleDelete}
+                variant={"destructive"}
+              >
+                Delete
+              </Button>
+              <Log meetingId={data.id} usersMap={usersMap} />
+              <Link
+                href={`/meeting/${data.id}/`}
+                className={buttonVariants({
+                  variant: "default",
+                })}
+              >
+                Edit
+              </Link>
+            </div>
           )}
         </div>
       </SheetContent>

@@ -1,10 +1,10 @@
-import { createInputSchema, meetings } from "@/server/db/schema";
+import { attendedMeetings, meetings, users } from "@/server/db/schema";
 import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { z } from "zod";
-import { createInput } from "@/server/db/zod";
+import { createMeetingSchema } from "@/server/db/zod";
 
-const updateSchema = createInputSchema.extend({
+const updateSchema = createMeetingSchema.extend({
   id: z.number().min(1),
 });
 
@@ -52,14 +52,39 @@ export const meetingsRouter = createTRPCRouter({
       limit: 4,
     });
   }),
-  create: adminProcedure.input(createInput).mutation(async ({ ctx, input }) => {
-    // 2024-04 - 25T21: 30:00.000Z 2024-04 - 25T06:00:00.000Z
-    await ctx.db.insert(meetings).values(input);
-  }),
+  create: adminProcedure
+    .input(createMeetingSchema)
+    .mutation(async ({ ctx, input }) => {
+      // 2024-04 - 25T21: 30:00.000Z 2024-04 - 25T06:00:00.000Z
+      await ctx.db.insert(meetings).values(input);
+    }),
 
   deleteMeeting: adminProcedure
     .input(z.number())
     .mutation(async ({ ctx, input }) => {
       await ctx.db.delete(meetings).where(eq(meetings.id, input));
+    }),
+
+  log: adminProcedure
+    .input(
+      z.object({
+        data: z.array(
+          z.object({
+            userId: z.string(),
+            meetingId: z.number(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(attendedMeetings).values(input.data);
+      for (const { userId } of input.data) {
+        await ctx.db
+          .update(users)
+          .set({
+            attendances: sql`${users.attendances} + 1`,
+          })
+          .where(eq(users.id, userId));
+      }
     }),
 });

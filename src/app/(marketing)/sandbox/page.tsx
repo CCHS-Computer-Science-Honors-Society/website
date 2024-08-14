@@ -26,6 +26,7 @@ export default async function Page() {
             {upcomingMeetings.length === 0 && <p>No upcoming meetings</p>}
             {upcomingMeetings.map((meeting) => (
               <MeetingItem
+                usersMap={[]}
                 key={meeting.id}
                 data={meeting}
                 isAdmin={session?.user.isAdmin ?? false}

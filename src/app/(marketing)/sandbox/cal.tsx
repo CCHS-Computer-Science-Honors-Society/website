@@ -122,6 +122,7 @@ const Calendar: React.FC<CalendarProps> = ({ data, isAdmin }) => {
 
                 return (
                   <MeetingItem
+                    usersMap={[]}
                     key={meeting.id}
                     data={meeting}
                     isAdmin={isAdmin}

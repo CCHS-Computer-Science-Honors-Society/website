@@ -1,5 +1,4 @@
 import { type UserPermissions } from "@/lib/permissions";
-import { createInsertSchema } from "drizzle-zod";
 import { relations, sql } from "drizzle-orm";
 import {
   boolean,
@@ -179,5 +178,3 @@ export const updateMeetingSchema = z.object({
   date: z.date().optional(),
   isEvent: z.boolean().optional(),
 });
-
-export const createInputSchema = createInsertSchema(meetings);
