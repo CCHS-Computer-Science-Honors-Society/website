@@ -30,7 +30,7 @@ export function FooterCTA() {
 
       <div className="mt-10 md:mb-8">
         <div className="flex items-center space-x-4">
-          <Link href="https://forms.gle/hjWduMtGQHCfTBpX7">
+          <Link href="https://forms.gle/KEfALp6WmnfMfnso6">
             <SkButton>Apply Now</SkButton>
           </Link>
 
