@@ -39,6 +39,9 @@ function Navbar({
             <HoveredLink href="/#apply">Apply</HoveredLink>
           </div>
         </MenuItem>
+        <HoveredLink href="/meetings/logs" className="text-sm">
+          Meeting Logs
+        </HoveredLink>
         <HoveredLink href="/calendar" className="text-sm">
           Calendar
         </HoveredLink>
