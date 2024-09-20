@@ -27,7 +27,6 @@ export const users = pgTable("user", {
   isAdmin: boolean("isAdmin").notNull().default(false),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
-  phone: varchar("phone", { length: 15 }),
   emailVerified: timestamp("emailVerified", {
     mode: "date",
   }).default(sql`CURRENT_TIMESTAMP`),
@@ -116,7 +115,7 @@ export const meetings = pgTable(
     date: timestamp("meeting_date", {
       mode: "date",
     }).notNull(),
-    createdById: varchar("createdById", { length: 255 }).notNull(),
+    createdById: text("createdById").notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
@@ -132,7 +131,7 @@ export const meetings = pgTable(
 export const attendedMeetings = pgTable(
   "attended_meetings",
   {
-    userId: varchar("userId", { length: 255 })
+    userId: text("userId")
       .notNull()
       .references(() => users.id),
     meetingId: integer("meetingId")
